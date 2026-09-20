@@ -109,14 +109,22 @@ const TRIP = {
   ],
 
   food: [
-    { slot: 'gz-dimsum-01', cat: '广式早茶', name: '虾饺', line: '皮薄馅满，先拍照再动筷', icon: 'steamer' },
-    { slot: 'gz-dimsum-02', cat: '广式早茶', name: '一盅两件', line: '凤爪配普洱，老广的慢早晨', icon: 'teacup' },
+    { slot: 'gz-dimsum-01', cat: '广式早茶', name: '虾饺', line: '皮薄馅满，先拍照再动筷', icon: 'steamer',
+      img: 'https://images.unsplash.com/photo-1604632910793-c0601f361b34?ixlib=rb-4.1.0&q=80&fm=jpg&crop=entropy&cs=srgb&w=900',
+      src: 'https://unsplash.com/photos/BnDPpaHR9RQ' },
+    { slot: 'gz-dimsum-02', cat: '广式早茶', name: '一盅两件', line: '凤爪配普洱，老广的慢早晨', icon: 'teacup',
+      img: 'https://images.unsplash.com/photo-1596463302369-e74d01db0c33?ixlib=rb-4.1.0&q=80&fm=jpg&crop=entropy&cs=srgb&w=900',
+      src: 'https://unsplash.com/photos/eDPAGdaJ-GQ' },
     { slot: 'gz-dimsum-03', cat: '广式早茶', name: '肠粉', line: '落地第一晚的仪式感', icon: 'roll' },
     { slot: 'gz-street-01', cat: '老城小吃', name: '艇仔粥', line: '裕记粥档 · 把荔湾的早晨煮开了', icon: 'congee' },
-    { slot: 'gz-street-02', cat: '老城小吃', name: '西门口小吃', line: '不设菜单，边走边吃', icon: 'streetfood' },
+    { slot: 'gz-street-02', cat: '老城小吃', name: '西门口小吃', line: '不设菜单，边走边吃', icon: 'streetfood',
+      img: 'https://images.unsplash.com/photo-1607857530521-53448b220fe8?ixlib=rb-4.1.0&q=80&fm=jpg&crop=entropy&cs=srgb&w=900',
+      src: 'https://unsplash.com/photos/6bF6kS4WJk0' },
     { slot: 'sd-food-01', cat: '顺德龙江', name: '双皮奶', line: '甜，是这一程的休止符', icon: 'milk' },
     { slot: 'sd-food-02', cat: '顺德龙江', name: '烧鹅', line: '皮脆那一声，是顺德在打招呼', icon: 'goose' },
-    { slot: 'sd-food-03', cat: '顺德龙江', name: '龙江晚饭', line: '不设限的一餐，龙江镇见', icon: 'feast', star: true },
+    { slot: 'sd-food-03', cat: '顺德龙江', name: '龙江晚饭', line: '不设限的一餐，龙江镇见', icon: 'feast', star: true,
+      img: 'https://images.unsplash.com/photo-1628591697740-4378f154b2ce?ixlib=rb-4.1.0&q=80&fm=jpg&crop=entropy&cs=srgb&w=900',
+      src: 'https://unsplash.com/photos/NJwFPHURwNQ' },
   ],
 
   album: {

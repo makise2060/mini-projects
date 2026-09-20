@@ -457,6 +457,39 @@
      二、渲染
      ============================================================ */
 
+  /* 图位 → 插画兜底（实拍加载失败时自动回落，绝不留破图） */
+  var FALLBACKS = {};
+
+  /* 可选实拍图包（js/photos.optional.js，默认未加载） */
+  function applyOptionalPhotos() {
+    var opt = window.OPTIONAL_PHOTOS;
+    if (!opt) return;
+    TRIP.food.forEach(function (f) {
+      var o = opt[f.slot];
+      if (o) { f.img = o.img; if (o.src) f.src = o.src; }
+    });
+    TRIP.album.tabs.forEach(function (t) {
+      TRIP.album.groups[t.key].forEach(function (s) {
+        var o = opt[s.slot];
+        if (o) {
+          s.img = o.img;
+          if (o.src) s.src = o.src;
+          if (o.name) s.name = o.name;
+          if (o.sub) s.sub = o.sub;
+        }
+      });
+    });
+  }
+
+  function wireImgFallback() {
+    $$('img[data-photo-slot]').forEach(function (im) {
+      im.addEventListener('error', function () {
+        var fb = FALLBACKS[im.dataset.photoSlot];
+        if (fb && im.parentNode) im.parentNode.innerHTML = fb;
+      });
+    });
+  }
+
   function esc(s) {
     return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
@@ -472,7 +505,7 @@
     $('#finaleLine').textContent = TRIP.meta.finale.line;
     $('#finaleSub').textContent = TRIP.meta.finale.sub;
     $('#finaleSeals').innerHTML = sealsHTML();
-    $('#finaleCredit').textContent = TRIP.meta.finale.credit;
+    $('#finaleCredit').textContent = TRIP.meta.finale.credit + ' · 实拍图来自 Unsplash（作者见灯箱链接），其余为原创插画占位';
   }
 
   function renderDashboard() {
@@ -560,9 +593,14 @@
     var track = $('#foodTrack');
     track.innerHTML = TRIP.food.map(function (f, i) {
       var city = f.cat.indexOf('顺德') === 0 ? 'sd' : 'gz';
+      FALLBACKS[f.slot] = FOOD_ICONS[f.icon]();
       return '<div class="food-card reveal' + (f.star ? ' food-card--star' : '') + '" data-city="' + city + '"' +
         ' data-lightbox="food" data-idx="' + i + '" tabindex="0" role="button" aria-label="' + esc(f.name) + '，放大查看">' +
-        '<div class="food-card__media">' + FOOD_ICONS[f.icon]() + '</div>' +
+        '<div class="food-card__media' + (f.img ? ' food-card__media--img' : '') + '">' +
+        (f.img
+          ? '<img src="' + f.img + '" alt="' + esc(f.name) + '（实拍照）" loading="lazy" data-photo-slot="' + f.slot + '">'
+          : FOOD_ICONS[f.icon]()) +
+        '</div>' +
         '<div class="food-card__body">' +
         '<div class="food-card__cat">' + esc(f.cat) + '</div>' +
         '<div class="food-card__name">' + esc(f.name) + '</div>' +
@@ -581,9 +619,12 @@
 
     panels.innerHTML = TRIP.album.tabs.map(function (t) {
       var tiles = TRIP.album.groups[t.key].map(function (s, i) {
+        FALLBACKS[s.slot] = SCENES[s.motif]();
         return '<figure class="tile' + (s.wide ? ' tile--wide' : '') + '" data-lightbox="album-' + t.key + '" data-idx="' + i + '"' +
           ' tabindex="0" role="button" aria-label="' + esc(s.name) + '，放大查看">' +
-          SCENES[s.motif]() +
+          (s.img
+            ? '<img src="' + s.img + '" alt="' + esc(s.name) + '（实拍照）" loading="lazy" data-photo-slot="' + s.slot + '">'
+            : SCENES[s.motif]()) +
           '<figcaption class="tile__cap"><div class="tile__name">' + esc(s.name) + '</div>' +
           '<div class="tile__sub">' + esc(s.sub) + '</div></figcaption>' +
           '<span class="tile__slot">' + s.slot + '</span></figure>';
@@ -829,11 +870,13 @@
     function itemSVG(g, i) {
       if (g === 'food') {
         var f = TRIP.food[i];
-        return { svg: FOOD_ICONS[f.icon](), name: f.name, line: f.cat + ' · ' + f.line, slot: f.slot };
+        var fhtml = f.img ? '<img src="' + f.img + '" alt="' + esc(f.name) + '">' : FOOD_ICONS[f.icon]();
+        return { html: fhtml, name: f.name, line: f.cat + ' · ' + f.line, slot: f.slot, src: f.src };
       }
       var key = g.replace('album-', '');
       var s = TRIP.album.groups[key][i];
-      return { svg: SCENES[s.motif](), name: s.name, line: s.sub, slot: s.slot };
+      var shtml = s.img ? '<img src="' + s.img + '" alt="' + esc(s.name) + '">' : SCENES[s.motif]();
+      return { html: shtml, name: s.name, line: s.sub, slot: s.slot, src: s.src };
     }
 
     function show(g, i) {
@@ -841,10 +884,15 @@
       var len = g === 'food' ? TRIP.food.length : TRIP.album.groups[g.replace('album-', '')].length;
       idx = ((i % len) + len) % len;
       var it = itemSVG(g, idx);
-      stage.innerHTML = it.svg;
+      stage.innerHTML = it.html;
       $('#lbName').textContent = it.name;
       $('#lbLine').textContent = it.line;
-      $('#lbSlot').textContent = 'SLOT ' + it.slot;
+      if (it.src) {
+        $('#lbSlot').innerHTML = 'SLOT ' + it.slot +
+          ' · <a href="' + it.src + '" target="_blank" rel="noopener">图源 Unsplash（查看作者与原图）</a>';
+      } else {
+        $('#lbSlot').textContent = 'SLOT ' + it.slot + ' · 插画占位，待实拍替换';
+      }
       $('#lbPrev').disabled = len <= 1;
       $('#lbNext').disabled = len <= 1;
     }
@@ -908,6 +956,7 @@
      ============================================================ */
 
   function init() {
+    applyOptionalPhotos();
     renderHeroAndFinale();
     renderDashboard();
     renderTimeline();
@@ -917,6 +966,7 @@
     renderTransit();
     renderMoonRail();
     renderDayChip();
+    wireImgFallback();
     setupSpy();
     setupReveal();
     setupBubbles();
