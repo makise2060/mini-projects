@@ -1,0 +1,186 @@
+/* ============================================================
+   base.css — 重置 / 排版 / 通用模式
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--f-sans);
+  font-size: var(--fs-body);
+  line-height: 1.7;
+  color: var(--ink);
+  background-color: var(--paper);
+}
+
+img, svg, video { display: block; max-width: 100%; }
+
+h1, h2, h3, h4, p, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+a { color: inherit; text-decoration: none; }
+
+button {
+  font: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+::selection { background: var(--accent-weak); color: var(--accent-strong); }
+
+:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* —— 版心 —— */
+.wrap {
+  width: min(var(--wrap), 100% - var(--sp-8));
+  margin-inline: auto;
+}
+
+/* —— 章节头 —— */
+.sec { padding-block: var(--sp-24) var(--sp-16); }
+
+.sec-head { margin-bottom: var(--sp-12); }
+
+.sec-kicker {
+  font-family: var(--f-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.35em;
+  color: var(--accent-strong);
+}
+
+.sec-title {
+  font-family: var(--f-serif);
+  font-size: var(--fs-display);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-top: var(--sp-2);
+}
+
+.sec-sub {
+  font-size: var(--fs-caption);
+  color: var(--ink-2);
+  margin-top: var(--sp-2);
+}
+
+.sec-rule {
+  width: 48px;
+  height: 2px;
+  background: var(--accent);
+  margin-top: var(--sp-4);
+  border-radius: 2px;
+  transition: background-color var(--t-city) var(--ease-std);
+}
+
+/* —— 通用 mono 时刻 —— */
+.mono {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+/* —— 渐入（IO 驱动，一次性） —— */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--t-slow) var(--ease-dec),
+    transform var(--t-slow) var(--ease-dec);
+}
+
+.reveal.in { opacity: 1; transform: none; }
+
+/* 大数字强调入场 */
+.reveal-pop {
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity var(--t-slow) var(--ease-dec),
+    transform var(--t-slow) var(--ease-emph);
+}
+
+.reveal-pop.in { opacity: 1; transform: none; }
+
+/* —— 屏幕阅读器专用 —— */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* —— 徽章通用 —— */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 2px var(--sp-3);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--hairline);
+  font-size: var(--fs-micro);
+  color: var(--ink-2);
+  background: var(--card);
+  white-space: nowrap;
+}
+
+.pill--city {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+  background: var(--accent-weak);
+  font-weight: 500;
+}
+
+.pill--star {
+  border-color: transparent;
+  color: #FFFFFF;
+  background: var(--accent);
+  font-weight: 500;
+}
+
+/* —— 滚动横条通用 —— */
+.hscroll {
+  display: flex;
+  gap: var(--sp-4);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: var(--sp-4);
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+}
+
+.hscroll > * { scroll-snap-align: start; flex-shrink: 0; }
+
+/* —— 动效偏好降级 —— */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal, .reveal-pop {
+    opacity: 1;
+    transform: none;
+  }
+
+  .bubbles { display: none; }
+}

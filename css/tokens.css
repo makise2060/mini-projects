@@ -1,0 +1,118 @@
+/* ============================================================
+   tokens.css — 设计 Token（设计方案260920 §4）
+   月满湾区 · 四人之行
+   ============================================================ */
+
+:root {
+  /* —— 中性色 —— */
+  --paper: #FAF7F0;          /* 全站底色 · 米白纸灯 */
+  --card: #FFFFFF;
+  --ink: #2B2B2B;            /* 正文墨 */
+  --ink-2: #55524C;          /* 次级文字 */
+  --ink-3: #8B867D;          /* 提示文字 */
+  --hairline: rgba(43, 43, 43, 0.12);
+
+  /* —— 语义色 —— */
+  --ok: #3B6D11;
+  --warn: #BA7517;
+  --err: #A32D2D;
+  --info: #185FA5;
+
+  /* —— 夜幕（Hero / 鱼灯节 / 尾声） —— */
+  --night: #1B2A4A;
+  --night-deep: #16233F;
+  --night-ink: #101B33;
+  --lamp: #FAC775;           /* 灯与月的光 */
+  --lamp-deep: #EF9F27;
+  --night-text: #FAF7F0;
+
+  /* —— 城市主题（默认广州，随 body[data-city] 切换） —— */
+  --accent: #EF9F27;
+  --accent-weak: #FAEEDA;
+  --accent-strong: #854F0B;
+  --accent-ink: #633806;
+
+  /* —— 字体 —— */
+  --f-serif: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
+  --f-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --f-mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Mono', Consolas, monospace;
+
+  /* —— 字号阶（12px 下限） —— */
+  --fs-display-xl: clamp(40px, 7.5vw, 68px);
+  --fs-display: 36px;
+  --fs-h1: 30px;
+  --fs-h2: 24px;
+  --fs-h3: 18px;
+  --fs-body: 16px;
+  --fs-caption: 14px;
+  --fs-micro: 12px;
+
+  /* —— 间距（8pt 基） —— */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-24: 96px;
+
+  /* —— 圆角 —— */
+  --r-card: 16px;
+  --r-img: 12px;
+  --r-pill: 999px;
+
+  /* —— 阴影 —— */
+  --sh-sm: 0 1px 2px rgba(43, 43, 43, 0.06);
+  --sh-md: 0 4px 12px rgba(43, 43, 43, 0.08);
+  --sh-lg: 0 12px 32px rgba(43, 43, 43, 0.12);
+
+  /* —— 动效 —— */
+  --t-fast: 150ms;
+  --t-norm: 300ms;
+  --t-slow: 500ms;
+  --t-city: 800ms;
+  --ease-std: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-dec: cubic-bezier(0, 0, 0.2, 1);
+  --ease-emph: cubic-bezier(0.2, 0, 0, 1);
+
+  /* —— 层级 —— */
+  --z-moon: 90;
+  --z-nav: 100;
+  --z-lightbox: 200;
+
+  /* —— 版心 —— */
+  --wrap: 1080px;
+  --wrap-wide: 1200px;
+}
+
+/* —— 三城主题（scoped 与 body 级共用） —— */
+[data-city="gz"] {
+  --accent: #EF9F27;
+  --accent-weak: #FAEEDA;
+  --accent-strong: #854F0B;
+  --accent-ink: #633806;
+  --city-bg: #FBF6EA;
+}
+
+[data-city="zh"] {
+  --accent: #378ADD;
+  --accent-weak: #E6F1FB;
+  --accent-strong: #185FA5;
+  --accent-ink: #0C447C;
+  --city-bg: #F3F8FD;
+}
+
+[data-city="sd"] {
+  --accent: #D85A30;
+  --accent-weak: #FAECE7;
+  --accent-strong: #993C1D;
+  --accent-ink: #712B13;
+  --city-bg: #FCF4F0;
+}
+
+body { transition: background-color var(--t-city) var(--ease-std); }
+body[data-city="gz"] { background-color: #FBF6EA; }
+body[data-city="zh"] { background-color: #F3F8FD; }
+body[data-city="sd"] { background-color: #FCF4F0; }
