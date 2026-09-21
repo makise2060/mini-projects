@@ -1,0 +1,16 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+
+# Node / 构建
+node_modules/
+dist/
+*.log
+
+# 截图验收产物
+**/.shots/
