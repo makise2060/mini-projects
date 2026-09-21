@@ -1,16 +1,18 @@
 /* ============================================================
-   tokens.css — 设计 Token（设计方案260920 §4）
+   tokens.css — 设计 Token（设计方案260920 §4 · 260921 改版修订）
    月满湾区 · 四人之行
    ============================================================ */
 
 :root {
-  /* —— 中性色 —— */
-  --paper: #FAF7F0;          /* 全站底色 · 米白纸灯 */
-  --card: #FFFFFF;
-  --ink: #2B2B2B;            /* 正文墨 */
-  --ink-2: #55524C;          /* 次级文字 */
-  --ink-3: #8B867D;          /* 提示文字 */
-  --hairline: rgba(43, 43, 43, 0.12);
+  /* —— 中性色（纸感底 + 墨） —— */
+  --paper: #F5EFE3;          /* 全站底色 · 宣纸米白，比 v1 更暖一档 */
+  --paper-2: #EDE4D3;        /* 分节交替底 */
+  --card: #FFFDF8;
+  --ink: #23211E;            /* 正文墨 */
+  --ink-2: #57534B;          /* 次级文字 */
+  --ink-3: #8C867A;          /* 提示文字 */
+  --hairline: rgba(35, 33, 30, 0.12);
+  --hairline-2: rgba(35, 33, 30, 0.22);
 
   /* —— 语义色 —— */
   --ok: #3B6D11;
@@ -18,31 +20,40 @@
   --err: #A32D2D;
   --info: #185FA5;
 
+  /* —— 朱砂印 —— */
+  --seal: #B9352B;
+  --seal-deep: #8E2620;
+
   /* —— 夜幕（Hero / 鱼灯节 / 尾声） —— */
-  --night: #1B2A4A;
-  --night-deep: #16233F;
-  --night-ink: #101B33;
+  --night: #14213D;
+  --night-deep: #0E1830;
+  --night-ink: #080F21;
+  --night-mist: #2B3F6B;
   --lamp: #FAC775;           /* 灯与月的光 */
   --lamp-deep: #EF9F27;
-  --night-text: #FAF7F0;
+  --lamp-pale: #FDEFC8;
+  --night-text: #F7F1E4;
 
   /* —— 城市主题（默认广州，随 body[data-city] 切换） —— */
   --accent: #EF9F27;
   --accent-weak: #FAEEDA;
   --accent-strong: #854F0B;
   --accent-ink: #633806;
+  --city-bg: #F7EFDF;
 
-  /* —— 字体 —— */
+  /* —— 字体（等宽/英文栈后面紧跟 Noto，避免中文字符落到系统点阵宋体） —— */
+  --f-brush: 'Ma Shan Zheng', 'Noto Serif SC', 'STKaiti', 'KaiTi', serif;
   --f-serif: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
   --f-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  --f-mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Mono', Consolas, monospace;
+  --f-mono: 'DM Mono', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'JetBrains Mono', Consolas, monospace;
+  --f-en: 'Cormorant Garamond', 'Noto Serif SC', 'Georgia', serif;
 
   /* —— 字号阶（12px 下限） —— */
-  --fs-display-xl: clamp(40px, 7.5vw, 68px);
-  --fs-display: 36px;
-  --fs-h1: 30px;
-  --fs-h2: 24px;
-  --fs-h3: 18px;
+  --fs-hero: clamp(84px, 15vw, 176px);
+  --fs-display: clamp(38px, 5.2vw, 64px);
+  --fs-h1: clamp(30px, 3.6vw, 44px);
+  --fs-h2: clamp(24px, 2.6vw, 30px);
+  --fs-h3: 19px;
   --fs-body: 16px;
   --fs-caption: 14px;
   --fs-micro: 12px;
@@ -57,34 +68,39 @@
   --sp-12: 48px;
   --sp-16: 64px;
   --sp-24: 96px;
+  --sp-32: 128px;
 
   /* —— 圆角 —— */
-  --r-card: 16px;
+  --r-card: 18px;
   --r-img: 12px;
   --r-pill: 999px;
 
-  /* —— 阴影 —— */
-  --sh-sm: 0 1px 2px rgba(43, 43, 43, 0.06);
-  --sh-md: 0 4px 12px rgba(43, 43, 43, 0.08);
-  --sh-lg: 0 12px 32px rgba(43, 43, 43, 0.12);
+  /* —— 阴影（暖墨） —— */
+  --sh-sm: 0 1px 2px rgba(60, 40, 10, 0.06), 0 1px 1px rgba(60, 40, 10, 0.04);
+  --sh-md: 0 6px 18px rgba(60, 40, 10, 0.10), 0 2px 4px rgba(60, 40, 10, 0.05);
+  --sh-lg: 0 24px 60px rgba(60, 40, 10, 0.18), 0 6px 14px rgba(60, 40, 10, 0.08);
+  --sh-glow: 0 0 60px 20px rgba(250, 215, 140, 0.32), 0 0 140px 60px rgba(250, 215, 140, 0.14);
 
   /* —— 动效 —— */
   --t-fast: 150ms;
-  --t-norm: 300ms;
-  --t-slow: 500ms;
-  --t-city: 800ms;
+  --t-norm: 320ms;
+  --t-slow: 600ms;
+  --t-city: 900ms;
   --ease-std: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-dec: cubic-bezier(0, 0, 0.2, 1);
   --ease-emph: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
 
   /* —— 层级 —— */
+  --z-grain: 60;
   --z-moon: 90;
   --z-nav: 100;
   --z-lightbox: 200;
 
   /* —— 版心 —— */
-  --wrap: 1080px;
-  --wrap-wide: 1200px;
+  --wrap: 1120px;
+  --wrap-wide: 1280px;
 }
 
 /* —— 三城主题（scoped 与 body 级共用） —— */
@@ -93,7 +109,7 @@
   --accent-weak: #FAEEDA;
   --accent-strong: #854F0B;
   --accent-ink: #633806;
-  --city-bg: #FBF6EA;
+  --city-bg: #F7EFDF;
 }
 
 [data-city="zh"] {
@@ -101,7 +117,7 @@
   --accent-weak: #E6F1FB;
   --accent-strong: #185FA5;
   --accent-ink: #0C447C;
-  --city-bg: #F3F8FD;
+  --city-bg: #EEF4FA;
 }
 
 [data-city="sd"] {
@@ -109,10 +125,10 @@
   --accent-weak: #FAECE7;
   --accent-strong: #993C1D;
   --accent-ink: #712B13;
-  --city-bg: #FCF4F0;
+  --city-bg: #F9EEE7;
 }
 
 body { transition: background-color var(--t-city) var(--ease-std); }
-body[data-city="gz"] { background-color: #FBF6EA; }
-body[data-city="zh"] { background-color: #F3F8FD; }
-body[data-city="sd"] { background-color: #FCF4F0; }
+body[data-city="gz"] { background-color: #F7EFDF; }
+body[data-city="zh"] { background-color: #EEF4FA; }
+body[data-city="sd"] { background-color: #F9EEE7; }

@@ -11,3 +11,6 @@ desktop.ini
 node_modules/
 dist/
 *.log
+
+# 验收截图
+.shots/
